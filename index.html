@@ -1,0 +1,204 @@
+<!--
+ Copyright 2019 Bhautik
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!doctype html>
+<html ⚡ lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Experiments created by Bhautik Chudasama">
+    <link rel="preload" as="script" href="https://cdn.ampproject.org/v0.js">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <style amp-custom>
+        .hdr {
+            width: 100%;
+            max-width: 2020px;
+            margin: 0 auto;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 17;
+            background-color: #fff;
+            box-shadow: 0 2px 10px 0 rgba(0,0,0,.07);
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            max-width: 1460px;
+            padding: 14px 22px;
+            margin: 0 auto;
+            font-family: 'Bree Serif', serif;
+            font-size:24px;
+            color: #005af0;
+         }
+         .experiments {
+             width: 100%;
+             
+             display: flex;
+             flex-wrap: wrap;
+             justify-content: center;
+         }
+         .experiments .experiment {
+            max-width: 220px;
+            margin-left: 22px;
+            margin-top: 28px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            flex-basis: 100%;
+            margin-bottom: 12px;
+            background: #fff;
+            padding: 20px 8px;
+            text-decoration: none;
+            transition: box-shadow .3s ease-in-out, transform .3s ease-in-out;
+         }
+         .experiments .experiment:hover {
+                 box-shadow: 0 2px 4px 0 rgba(60, 64, 67, .3), 0 6px 11px 5px rgba(60, 64, 67, .15);
+         }
+         .experiments .experiment:focus {
+                 box-shadow: 0 2px 4px 0 rgba(60, 64, 67, .3), 0 6px 11px 5px rgba(60, 64, 67, .15);
+         }
+         .experiment div {
+             width: 100%;
+             height: 22px;
+             display: flex;
+             align-items: center;
+             justify-content: flex-start;
+         }
+         .experiment div svg {
+             width: 28px;
+         }
+         .experiment .title {
+            font-family: 'Bree Serif', serif;
+            font-size:18px;
+            color: #000;
+            margin-top: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+         }
+         @media screen and (max-width: 320px) {
+             .experiments .experiment {
+                 margin-left: 0;
+             }
+         }
+    </style>
+    <style amp-boilerplate>
+        body {
+            -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            animation: -amp-start 8s steps(1, end) 0s 1 normal both
+        }
+
+        @-webkit-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-moz-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-ms-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-o-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+    </style><noscript>
+        <style amp-boilerplate>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none
+            }
+        </style>
+    </noscript>
+
+    <link rel="canonical" href="https://bhau.tk/experiments">
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet">
+    <title>Experiments -Bhautik Chudasama</title>
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "",
+            "headline": "Web Experiments created by Bhautik Chudasama",
+            "datePublished": "2019-06-12T06:45:41Z"
+        }
+    </script>
+</head>
+
+<body>
+    <header class="hdr">
+        Experiments
+    </header>
+    <main>
+        <div class="experiments">
+            <a href="./offline vs online/" class="experiment">
+                <div>
+                    <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" fill-rule="evenodd">
+                            <path fill="#FABB05" d="M20 47V19h21z" />
+                            <path d="M28 3L10 27h18V3z" stroke="#3C4043" stroke-width="2" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="title">
+                    How to decice user Is offline or online?
+                </div>
+            </a>
+            
+        </div>
+    </main>
+</body>
+
+</html>
