@@ -1,0 +1,88 @@
+<!--
+ Copyright 2019 Bhautik
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>How to decice user Is offline or online?</title>
+    <meta name="title" content="How to decice user Is offline or online?">
+    <meta name="author" content="Bhautik Chudasama">
+    <meta name="keywords" content="online, offline">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            align-items: center;
+        }
+        .githubCode {
+            position: fixed;
+            left: 0px;
+            bottom: 0px;
+            min-height: 52px;
+            background-image: linear-gradient( 135deg, #CE9FFC 10%, #7367F0 100%);
+            z-index: 5;
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <p class="status"></p>
+    <a href="" class="githubCode">
+        source code on github
+    </a>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(e) {
+            var status = document.querySelector(".status");
+            // check if user is online
+            if(navigator.onLine) {
+                status.innerHTML = "🚀 You are online!";
+            }
+            else {
+                status.innerHTML = "✈ You are offline!";
+            }
+            
+            // Listen changes for online..
+            window.addEventListener("online", function(event) {
+                status.innerHTML = "🚀 You are online!";
+            });
+
+            // Listen changes for offline..
+            window.addEventListener("offline", function(event) {
+            status.innerHTML = "✈ You are offline!";
+            });
+        });
+    </script>
+</body>
+</html>
