@@ -1,0 +1,110 @@
+<!--
+ Copyright 2019 Bhautik
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>How to determine battery status of hosting device</title>
+    <meta name="title" content="How to determine battery status of hosting device">
+    <meta name="description"
+        content="Without knowing the battery status of a device, a web developer must design the web application with an assumption of sufficient battery level for the task at hand. This means the battery of a device may exhaust faster than desired because web developers are unable to make decisions based on the battery status.">
+    <meta name="author" content="Bhautik Chudasama">
+    <meta name="keywords" content="battery, battery status, web">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            align-items: center;
+        }
+        .githubCode {
+            position: fixed;
+            left: 0px;
+            bottom: 0px;
+            min-height: 52px;
+            background-image: linear-gradient( 109.8deg, rgba(238,9,121,1) 42.8%, rgba(255,106,0,1) 83.3% );
+            z-index: 5;
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>Battery level: <span id="batteryLevel"></span></p>
+        <p>Charging time: <span id="chargingTime"></span></p>
+        <p>Charging: <span id="isCharging"></span></p>
+        <p>Charging: <span id="dischargeTime"></span></p>
+    </div>
+    <a href="https://bhautikchudasama.github.io/experiments/Battery%20Status" class="githubCode">
+        source code on github
+    </a>
+
+    <script>
+        const batteryLevel = document.querySelector("#batteryLevel");
+        const chargingTime = document.querySelector("#chargingTime");
+        const isCharging = document.querySelector("#isCharging");
+        const dischargeTime = document.querySelector("#dischargeTime");
+
+        navigator.getBattery().then((battery) => {
+            batteryLevel.innerHTML = battery.level*100 + "%";
+            chargingTime.innerHTML = battery.chargingTime;
+            isCharging.innerHTML = battery.charging;
+            dischargeTime.innerHTML = battery.dischargingTime + " seconds";
+
+            // Call when update arrives
+            battery.addEventListener('levelchange', function() {
+                batteryLevel.innerHTML = this.level*100 + "%";
+            });
+            // Charging time of battery/batteries
+            // infinity incase of unable
+            battery.addEventListener('chargingtime', function() {
+                chargingTime.innerHTML = this.chargingTime;
+            });
+            // When charging status change
+            battery.addEventListener('chargingchange', function() {
+                isCharging.innerHTML = this.charging;
+            });
+            // Remaining Time for run
+            battery.addEventListener('dischargingtimechange', function() {
+                dischargeTime.innerHTML = this.dischargingTime + " seconds";
+            });
+        }).catch((err) => {
+            batteryLevel.innerHTML = "NOT SUPPORT";
+            chargingTime.innerHTML = "NOT SUPPORT";
+            isCharging.innerHTML = "NOT SUPPORT";
+            dischargeTime.innerHTML = "NOT SUPPORT";
+        });
+    </script>
+</body>
+</html>
