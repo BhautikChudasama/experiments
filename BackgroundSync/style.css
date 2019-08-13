@@ -1,0 +1,118 @@
+/**
+ * Copyright 2019 Bhautik
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ p {
+    display: block;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+ }
+
+ #feedback-form {
+     display: none;
+ }
+
+ #feedback-status {
+    display: none;
+ }
+
+
+.header {
+    width: 100%;
+    height: 74px;
+    font-family: inherit;
+    color: #000;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    background: #fff;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,.24), 0 4px 4px 0 rgba(0,0,0,.12); 
+}
+main {
+    width: 100%;
+}
+main .feedback {
+    padding-top: 24px;
+    margin: 0 auto;
+    padding: 16px;
+    display: block;
+}
+label {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 2px;
+}
+input, textarea {
+    width: 95%;
+    padding: 12px 0;
+    border: 0;
+    padding-left: 8px;
+    border-radius: 4px;
+    font-family: 'Roboto',
+    sans-serif;
+    font-size: 13px;
+    border: 2px solid transparent;
+    outline: 0;
+}
+input:focus,textarea:focus {
+    border: 2px solid #00a862;
+    outline: 0;
+}
+input:invalid {
+    border: 2px solid #a80008;
+}
+.submit {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: inline-block;
+    z-index: 1;
+    padding: 14px 28px;
+    background: #00a862;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .24),
+        0 8px 12px rgba(0, 0, 0, .14);
+    border-radius: 500px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    border: 0;
+    font-family: inherit;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: .2s;
+    transition-property: transform,box-shadow,width,height;
+    transition-timing-function: ease;   
+    cursor: default;
+}
+button:focus, button:hover {
+    bottom: 18px;
+    background: #00a862a6;
+    outline: 0;
+}
+button:disabled {
+    background: #9E9E9E;
+}
+
+
+@media screen and (min-width: 768px) {
+    .feedback {
+        width: 40%;
+    }
+}
