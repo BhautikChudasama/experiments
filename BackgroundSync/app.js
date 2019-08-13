@@ -76,11 +76,6 @@ window.addEventListener("load", (event) => {
     pageLoading.setAttribute("data-hidden", true);
     formPage.style.display = "none";
     statusPage.style.display = "none";
-    init();
-});
-
-sendFeedbackButton.addEventListener("click", (event) => {
-    event.preventDefault();
     new Promise(function (resolve, reject) {
         Notification.requestPermission(function (result) {
             if (result !== 'granted') return reject(Error("Denied notification permission"));
@@ -89,6 +84,11 @@ sendFeedbackButton.addEventListener("click", (event) => {
     })
     .then()
     .catch(() => alert("Allow notification from settings!, so we will send the your feedback status!"));
+    init();
+});
+
+sendFeedbackButton.addEventListener("click", (event) => {
+    event.preventDefault();
 
     sendFeedbackButton.disabled = true;
     const email = emailInput.value.toString().trim();
