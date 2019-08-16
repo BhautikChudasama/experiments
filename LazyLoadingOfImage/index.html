@@ -1,0 +1,321 @@
+<!--
+ Copyright 2019 Bhautik
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lazy loading of image</title>
+    <link rel="preload" href="https://fonts.googleapis.com" as="font" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <meta name="title" content="Lazy loading of image">
+    <meta name="description"
+        content="Native <img> lazy-loading is coming to the web! https://bit.ly/loading-attribute <img loading=lazy>
+        defers offscreen images until the user scrolls near them. Shipping in Chrome ~75 https://bit.ly/loading-i2s">
+    <meta name="author" content="Bhautik Chudasama">
+    <meta name="keywords" content="performance, lazy loading, image">
+    <style>
+        @font-face {
+            font-family: "SharpSans";
+            src: url("../fonts/SharpSans-Medium.woff");
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "SharpSans";
+            src: url("../fonts/SharpSans-Semibold.woff");
+            font-weight: bold;
+        }
+       
+        html {
+            --primaryFont: "SharpSans", Monospace;
+            --secondaryFont: "Roboto", sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            border-radius: 8px;  
+        }
+        
+        .hdr {
+            width: 100%;
+            background: #fff;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 56px;
+                box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 2px 6px 2px rgba(60,64,67,.15);
+        }
+        .hdr .title {
+            font-family: var(--primaryFont);
+            font-style: normal;
+            font-size: 18px;
+            font-weight: bold; 
+            padding: 16px 16px;
+            letter-spacing: 0.2px;
+        }
+        main {
+            margin: 40px 0;
+        }
+        main .timing {
+            background: #3740ff;
+            width: 88%;
+            padding: 10px 10px;
+            margin: 0 auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,.12);
+            color: #fff;
+            display: block;
+            font-family: roboto;
+            font-size: 14px;
+        }
+        .timing .title {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0px 10px;
+            letter-spacing: 1px;
+        }
+        .timing p {
+            font-size: 14px;
+            
+            padding: 0px 10px;
+            letter-spacing: 1px;
+        }
+        main img {
+            min-width: 90%;
+            max-width: 90%;
+            display: block;
+            margin: 40px auto;
+        }
+        .actions {
+            align-items: flex-end;
+            bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            right: 24px;
+            z-index: 1000;
+        }
+        .actions .viewCode {
+            width: 120px;
+            align-items: center;
+            background-color: #3740ff;
+            border: 0;
+            padding: 0 32px;
+            border-radius: 50px;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            font-family: "Roboto",sans-serif;
+            font-size: .875em;
+            text-decoration: none;
+            font-weight: 600;
+            height: 56px;
+            letter-spacing: 1px;
+            overflow: hidden;
+        }
+        .actions .viewCode:hover {
+            background: #383da3;
+            transition: all 300ms linear;
+        }
+        div {
+            font-family: var(--secondaryFont);
+        }
+    </style>
+</head>
+<body>
+    <header class="hdr">
+        <div class="title">Lazy loading</div>
+    </header>
+    <main>
+        <div class="timing">
+            <p class="title">👋🏻 PERFORMANCE</p>
+            <div style="margin-top: 22px;">
+            <p>👷🏻‍ DOMContent time: <span id="dom" style="font-weight: bold;">WAIT</span></p>
+            <p>🙄 DNS lookup time: <span id="dns" style="font-weight: bold;">WAIT</span></p>
+            <p>🤖 Total load time: <span id="load" style="font-weight: bold;">WAIT</span></p>
+            </div>
+        </div>
+        <div class="actions">
+            <a href="#" class="viewCode">
+                <div>
+                    <svg role="img" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub icon</title><path fill="#fff" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </div>
+                <div>
+                    VIEW CODE
+                </div>
+            </a>
+        </div>
+        
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285, h_245/v1565933852/experimentswithbhautik/13_rgleny.webp" alt="image "
+            srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350,h_245/v1565933852/experimentswithbhautik/13_rgleny.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/13_rgleny.webp
+            768w",
+        >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            <div style="padding: 20px">
+                For refreshers, lazy-loading is a performance optimisation technique that makes it possible to load only the required
+                sections of your web/mobile pages on demand instead of in bulk. What this means is that for each time users scroll
+                through your application, contents are served on demand (until they get into the viewport).
+            </div>
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/18_v7nmyq.webp" alt="image "
+            srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/18_v7nmyq.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/18_v7nmyq.webp
+            768w"
+        >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            <div style="padding: 20px">
+            Built in lazy loading can using loading='lazy' attribute in image tag.
+            </div>
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/16_osv8dn.webp"
+            alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/16_osv8dn.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/16_osv8dn.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            <div style="padding: 20px">
+            From the BBC on : ~"Adding the loading attribute to images decreased load time on a fast network by
+            ~50% (reduced from ~1 second to < 0.5 seconds) and saved up to 40 requests to the server
+            </div>
+        </div>
+        <img loading="Lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/17_rtttts.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/17_rtttts.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/17_rtttts.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            <div style="padding: 20px">
+            IFrame can also lazy loaded by using same technique
+            </div>
+        </div>
+        <img loading="Lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/7_rwch1z.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/7_rwch1z.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/7_rwch1z.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            <div style="padding: 20px">
+            We can reduce the initial load time + reduce user data
+            </div>
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/4_k7snrq.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/4_k7snrq.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/4_k7snrq.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            <div style="padding: 20px">
+            Today lazy loading only support in chrome 75+
+            </div>
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/3_wuojas.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/8_todh8o.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/3_wuojas.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            🤖
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/8_todh8o.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/8_todh8o.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/8_todh8o.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            🌩️
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/1_oxgm9w.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/1_oxgm9w.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/1_oxgm9w.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            😊
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/5_axqtyh.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/5_axqtyh.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/5_axqtyh.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            ⌛🤘🏻
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/6_uf8hgd.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/6_uf8hgd.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/6_uf8hgd.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            🎉
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/9_mzjxyv.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/9_mzjxyv.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/9_mzjxyv.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            😎
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/11_pvyf72.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/11_pvyf72.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/11_pvyf72.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            🍉
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/10_sjpspw.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/10_sjpspw.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/10_sjpspw.webp
+            768w" >
+        <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            Thank you 🍉🏻
+        </div>
+        <img loading="lazy" src="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_285/v1565933852/experimentswithbhautik/12_nmoras.webp"
+                alt="image " srcset="https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_350/v1565933852/experimentswithbhautik/12_nmoras.webp
+            480w,
+            https://res.cloudinary.com/bhautikchudasama/image/upload/c_scale,w_1080/v1565933852/experimentswithbhautik/12_nmoras.webp
+            768w" >
+    </main>
+    <script>
+        window.addEventListener("load", (e) => {
+            const dom = document.querySelector("#dom");
+            const dns = document.querySelector("#dns");
+            const load = document.querySelector("#load");
+
+            var DOMloadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+            var dnsTime = window.performance.timing.domainLookupEnd - window.performance.timing.domainLookupStart;  
+            var loadingTime = new Date().getTime() - window.performance.timing.navigationStart;
+            
+            dom.innerHTML = `${DOMloadTime / 1000}s`;
+            dns.innerHTML = `${dnsTime / 1000} s`;
+            load.innerHTML = `${loadingTime / 1000}s`;
+        });
+    </script>
+</body>
+</html>
